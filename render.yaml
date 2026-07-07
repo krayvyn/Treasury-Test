@@ -1,0 +1,7 @@
+services:
+  - type: web
+    name: ttb-label-review
+    runtime: docker
+    plan: free
+    dockerfilePath: ./Dockerfile
+    autoDeploy: true
