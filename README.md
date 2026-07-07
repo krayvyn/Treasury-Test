@@ -91,18 +91,6 @@ pip install pytest
 pytest -q
 ```
 
-## Deploy to Render
-
-1. Push this repo to GitHub.
-2. In Render, **New +** &rarr; **Blueprint** &rarr; select your repo. The
-   included `render.yaml` provisions the service.
-3. When Render asks, set `ANTHROPIC_API_KEY` as a secret env var. The
-   blueprint marks it `sync: false` so it's never in git.
-4. Deploy. Health check is at `/api/healthz`.
-
-Free-tier services sleep after inactivity and take ~30 seconds to wake, which
-is fine for a prototype but not for the real agents; move to a paid plan
-before any pilot.
 
 ## API
 
