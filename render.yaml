@@ -1,0 +1,16 @@
+services:
+  - type: web
+    name: ttb-label-check
+    runtime: python
+    plan: free
+    region: ohio
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    healthCheckPath: /api/healthz
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.9
+      - key: ANTHROPIC_API_KEY
+        sync: false            # set in the Render dashboard, never in git
+      - key: ANTHROPIC_MODEL
+        value: claude-sonnet-4-5-20250929

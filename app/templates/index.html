@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>TTB Label Check — Prototype</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <header class="masthead">
+    <div class="masthead-inner">
+      <div class="wordmark">
+        <span class="wordmark-agency">TTB</span>
+        <span class="wordmark-sep">/</span>
+        <span class="wordmark-tool">Label Check</span>
+      </div>
+      <div class="masthead-meta">
+        <span class="dot" aria-hidden="true"></span>
+        Prototype &mdash; not for production use
+      </div>
+    </div>
+  </header>
+
+  <main class="wrap">
+    <section class="intro">
+      <h1>First-pass label review</h1>
+      <p>Upload a label image and paste the application details. The tool extracts what's on the label, compares it to the filing, and returns a verdict with per-field notes. An agent still signs off &mdash; this only removes the mechanical matching.</p>
+    </section>
+
+    <div class="mode-tabs" role="tablist" aria-label="Review mode">
+      <button class="tab active" data-mode="single" role="tab" aria-selected="true">Single review</button>
+      <button class="tab" data-mode="batch" role="tab" aria-selected="false">Batch (up to 25)</button>
+    </div>
+
+    <div class="grid">
+      <form id="reviewForm" class="panel form-panel" enctype="multipart/form-data">
+        <div class="panel-hd">
+          <span class="panel-num">01</span>
+          <h2>Application &amp; label</h2>
+        </div>
+
+        <div class="field">
+          <label for="beverage_class">Beverage class</label>
+          <select id="beverage_class" name="beverage_class" required>
+            <option value="distilled_spirits">Distilled spirits</option>
+            <option value="wine">Wine</option>
+            <option value="beer">Beer / malt beverage</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label for="brand_name">Brand name</label>
+          <input id="brand_name" name="brand_name" required placeholder="OLD TOM DISTILLERY" />
+        </div>
+
+        <div class="field">
+          <label for="class_type">Class / type designation</label>
+          <input id="class_type" name="class_type" required placeholder="Kentucky Straight Bourbon Whiskey" />
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label for="alcohol_content">Alcohol content</label>
+            <input id="alcohol_content" name="alcohol_content" placeholder="45% Alc./Vol." />
+          </div>
+          <div class="field">
+            <label for="net_contents">Net contents</label>
+            <input id="net_contents" name="net_contents" required placeholder="750 mL" />
+          </div>
+        </div>
+
+        <div class="field">
+          <label for="producer_name">Producer / bottler name</label>
+          <input id="producer_name" name="producer_name" required placeholder="Old Tom Distillery Co." />
+        </div>
+
+        <div class="field">
+          <label for="producer_address">Producer address <span class="opt">(optional)</span></label>
+          <input id="producer_address" name="producer_address" placeholder="Louisville, KY" />
+        </div>
+
+        <div class="row">
+          <div class="field">
+            <label class="check">
+              <input type="checkbox" id="is_import" name="is_import" value="true" />
+              <span>Imported product</span>
+            </label>
+          </div>
+          <div class="field">
+            <label for="country_of_origin">Country of origin</label>
+            <input id="country_of_origin" name="country_of_origin" placeholder="Scotland" />
+          </div>
+        </div>
+
+        <div class="field field-drop" id="dropZone">
+          <label for="image" id="dropLabel">Label image</label>
+          <input type="file" id="image" name="image" accept="image/*" required />
+          <p class="drop-hint" id="dropHint">Drag &amp; drop, or click to select. JPG / PNG / WebP, up to 8&nbsp;MB.</p>
+          <div class="thumbs" id="thumbs" aria-live="polite"></div>
+        </div>
+
+        <div class="actions">
+          <button type="submit" class="primary" id="submitBtn">Run review</button>
+          <button type="reset" class="ghost" id="resetBtn">Reset</button>
+        </div>
+      </form>
+
+      <section class="panel result-panel" id="resultPanel" aria-live="polite">
+        <div class="panel-hd">
+          <span class="panel-num">02</span>
+          <h2>Verdict</h2>
+        </div>
+        <div class="result-empty" id="resultEmpty">
+          <p>Results will appear here after review. Nothing is stored server-side.</p>
+        </div>
+        <div class="result-body" id="resultBody" hidden></div>
+      </section>
+    </div>
+  </main>
+
+  <footer class="foot">
+    <span>Prototype for TTB / COLA workflow evaluation.</span>
+    <span>No PII retained. Images processed in memory only.</span>
+  </footer>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>
