@@ -125,8 +125,8 @@ weren't overlooked:
   is 0.15%, wine is 1.0–1.5%, beer is 0.3% — the code path is ready for it
   in `_abv_check`).
 - Rate-limit handling for large batches beyond what the semaphore covers.
-
-- **Free-tier performance tuning.** Initial warm-request timing on Render's
+-
+   **Free-tier performance tuning.** Initial warm-request timing on Render's
   0.1 vCPU free tier was ~18s per label using PNG + LANCZOS preprocessing
   and `max_tokens=1500` on the vision response. Profiling showed the CPU
   was spending most of that time on Pillow encode and waiting for the
