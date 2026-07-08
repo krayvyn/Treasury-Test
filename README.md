@@ -137,5 +137,4 @@ weren't overlooked:
   is 0.15%, wine is 1.0–1.5%, beer is 0.3% — the code path is ready for it
   in `_abv_check`).
 - Rate-limit handling for large batches beyond what the semaphore covers.
--
    
