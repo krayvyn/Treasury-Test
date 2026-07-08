@@ -92,15 +92,7 @@ pytest
 `ANTHROPIC_API_KEY` in the dashboard (not committed), and it deploys.
 Health check is at `/healthz`.
 
-## Render Optimization
-**Free-tier performance tuning.** Initial warm-request timing on Render's
-  0.1 vCPU free tier was ~18s per label using PNG + LANCZOS preprocessing
-  and `max_tokens=1500` on the vision response. Profiling showed the CPU
-  was spending most of that time on Pillow encode and waiting for the
-  larger token stream. Switching to JPEG output, BILINEAR resize, and
-  `max_tokens=800` brought warm requests under the 5s bar Sarah called out.
-  First request after 15 min idle still takes ~20s to wake the container
-  — a free-tier artifact, not a production concern.
+
 
 ## Assumptions and trade-offs
 
@@ -120,6 +112,16 @@ Health check is at `/healthz`.
   registered in `samples.py`. If the corresponding image files aren't
   committed, the sample endpoint returns a helpful 500 rather than
   silently failing.
+
+## Render Optimization
+**Free-tier performance tuning.** Initial warm-request timing on Render's
+  0.1 vCPU free tier was ~18s per label using PNG + LANCZOS preprocessing
+  and `max_tokens=1500` on the vision response. Profiling showed the CPU
+  was spending most of that time on Pillow encode and waiting for the
+  larger token stream. Switching to JPEG output, BILINEAR resize, and
+  `max_tokens=800` brought warm requests under the 5s bar Sarah called out.
+  First request after 15 min idle still takes ~20s to wake the container
+  — a free-tier artifact, not a production concern.
 
 ## What's missing that a production build would need
 
