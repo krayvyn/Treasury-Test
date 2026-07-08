@@ -4,7 +4,7 @@ A working prototype for the interview task: upload an alcohol beverage label,
 compare it against a COLA-style application record, get a plain-English
 verdict in about 3–5 seconds.
 
-**Live:** https://treasury-test.onrender.com
+**Live:** https://treasury-test-ny3g.onrender.com
 **Repo:** https://github.com/krayvyn/Treasury-Test
 
 ---
