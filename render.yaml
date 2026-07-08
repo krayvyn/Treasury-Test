@@ -1,16 +1,19 @@
 services:
   - type: web
-    name: ttb-label-check
+    name: treasury-test
     runtime: python
     plan: free
-    region: ohio
     buildCommand: pip install -r requirements.txt
     startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
-    healthCheckPath: /api/healthz
+    healthCheckPath: /healthz
     envVars:
-      - key: PYTHON_VERSION
-        value: 3.11.9
       - key: ANTHROPIC_API_KEY
-        sync: false            # set in the Render dashboard, never in git
-      - key: ANTHROPIC_MODEL
-        value: claude-sonnet-4-5-20250929
+        sync: false           # set in the Render dashboard
+      - key: VISION_MODEL
+        value: claude-sonnet-4-5
+      - key: MAX_UPLOAD_MB
+        value: "10"
+      - key: BATCH_CONCURRENCY
+        value: "4"
+      - key: PYTHON_VERSION
+        value: "3.12.7"

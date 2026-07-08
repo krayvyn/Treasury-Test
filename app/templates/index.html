@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero">
+  <div class="hero__eyebrow">Prototype · faster than the 5-second bar</div>
+  <h1 class="hero__title">Verify a label against its application.</h1>
+  <p class="hero__lede">
+    Upload a label image and the declared application data. You'll see a stamp,
+    a plain-English reason for every check, and where the label and application disagree.
+  </p>
+</section>
+
+<section class="workbench" id="workbench">
+  <div class="workbench__intake">
+    <form id="review-form" class="intake" novalidate>
+      <div class="intake__drop" id="drop" tabindex="0" role="button" aria-label="Upload a label image">
+        <input type="file" id="file" name="label" accept="image/*" hidden>
+        <div class="intake__drop-inner">
+          <div class="intake__icon" aria-hidden="true">↥</div>
+          <div class="intake__prompt">
+            <strong>Drop a label image</strong>
+            <span>or click to choose. PNG or JPG, up to {{ settings.max_upload_mb }} MB.</span>
+          </div>
+        </div>
+        <div class="intake__preview" id="preview" hidden>
+          <img id="preview-img" alt="Label preview">
+          <button type="button" id="preview-clear" class="linky">Choose a different image</button>
+        </div>
+      </div>
+
+      <details class="intake__declared">
+        <summary>Application details <span class="hint">optional — leave blank to only extract the label</span></summary>
+        <div class="grid">
+          <label>Brand name<input name="brand_name" type="text" autocomplete="off"></label>
+          <label>Class / type<input name="class_type" type="text" autocomplete="off"></label>
+          <label>Alcohol content<input name="alcohol_content" type="text" placeholder="45% Alc./Vol."></label>
+          <label>ABV (numeric)<input name="alcohol_pct" type="number" step="0.1" min="0" max="100"></label>
+          <label>Net contents<input name="net_contents" type="text" placeholder="750 mL"></label>
+          <label>Bottler name<input name="bottler_name" type="text"></label>
+          <label class="span-2">Bottler address<input name="bottler_address" type="text"></label>
+          <label>Country of origin<input name="country_of_origin" type="text" placeholder="Only for imports"></label>
+        </div>
+      </details>
+
+      <div class="intake__actions">
+        <button type="submit" id="submit" class="btn btn--primary" disabled>Review label</button>
+        <span class="intake__hint">Results in about 3 – 5 seconds.</span>
+      </div>
+    </form>
+  </div>
+
+  <aside class="workbench__samples">
+    <h2>Or try a baked-in sample</h2>
+    <p class="samples__lede">Each one exercises a different kind of failure the interview notes called out.</p>
+    <ul class="sample-list">
+      {% for sample in samples %}
+      <li>
+        <button type="button" class="sample" data-sample-id="{{ sample.id }}">
+          <span class="sample__title">{{ sample.title }}</span>
+          <span class="sample__sub">{{ sample.subtitle }}</span>
+        </button>
+      </li>
+      {% endfor %}
+    </ul>
+  </aside>
+</section>
+
+<section id="result-slot" class="result-slot" hidden></section>
+
+<template id="loading-tpl">
+  <div class="loading">
+    <div class="loading__stamp" aria-hidden="true"></div>
+    <p class="loading__text">Reviewing label…</p>
+    <p class="loading__sub" id="loading-sub">Preprocessing image</p>
+  </div>
+</template>
+
+<template id="result-tpl">
+  <article class="result" data-verdict="">
+    <header class="result__head">
+      <div>
+        <div class="result__eyebrow">Verdict</div>
+        <h2 class="result__summary"></h2>
+      </div>
+      <div class="result__meta">
+        <span class="pill pill--timing"></span>
+        <span class="pill pill--filename"></span>
+      </div>
+    </header>
+    <div class="result__body">
+      <figure class="result__label">
+        <img class="result__label-img" alt="Reviewed label">
+        <div class="stamp" aria-hidden="true">
+          <span class="stamp__text"></span>
+        </div>
+      </figure>
+      <div class="result__checks">
+        <table class="checks">
+          <thead>
+            <tr>
+              <th scope="col">Field</th>
+              <th scope="col">On the label</th>
+              <th scope="col">On the application</th>
+              <th scope="col">Verdict</th>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
+    </div>
+  </article>
+</template>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/app.js"></script>
+{% endblock %}

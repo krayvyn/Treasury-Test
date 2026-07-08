@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block content %}
+<section class="hero hero--sub">
+  <div class="hero__eyebrow">Batch review</div>
+  <h1 class="hero__title">Triage a stack of labels at once.</h1>
+  <p class="hero__lede">
+    Drop up to 50 labels. Each one goes through the same pipeline as the single-label view.
+    Filter by verdict to skip straight to the ones that need attention.
+  </p>
+</section>
+
+<section class="workbench workbench--batch">
+  <form id="batch-form" class="intake intake--batch" novalidate>
+    <div class="intake__drop" id="drop" tabindex="0" role="button" aria-label="Upload multiple labels">
+      <input type="file" id="files" name="labels" accept="image/*" multiple hidden>
+      <div class="intake__drop-inner">
+        <div class="intake__icon" aria-hidden="true">↥↥↥</div>
+        <div class="intake__prompt">
+          <strong>Drop label images</strong>
+          <span>Or click to choose. Up to 50 files per batch.</span>
+        </div>
+      </div>
+      <div id="file-list" class="file-list" hidden></div>
+    </div>
+    <div class="intake__actions">
+      <button type="submit" id="batch-submit" class="btn btn--primary" disabled>Review batch</button>
+      <span class="intake__hint">Runs {{ settings.batch_concurrency }} in parallel.</span>
+    </div>
+  </form>
+</section>
+
+<section id="batch-progress" class="batch-progress" hidden>
+  <div class="progress"><div class="progress__bar" id="progress-bar"></div></div>
+  <p id="progress-text" class="batch-progress__text">Uploading…</p>
+</section>
+
+<section id="batch-results" class="batch-results" hidden>
+  <header class="batch-results__head">
+    <h2>Results</h2>
+    <div class="filter-chips" role="tablist">
+      <button type="button" class="chip is-on" data-filter="all">All <span class="chip__count" data-count="all">0</span></button>
+      <button type="button" class="chip chip--fail" data-filter="fail">Rejected <span class="chip__count" data-count="fail">0</span></button>
+      <button type="button" class="chip chip--review" data-filter="review">Needs review <span class="chip__count" data-count="review">0</span></button>
+      <button type="button" class="chip chip--pass" data-filter="pass">Passed <span class="chip__count" data-count="pass">0</span></button>
+    </div>
+  </header>
+  <table class="batch-table">
+    <thead>
+      <tr>
+        <th scope="col">Verdict</th>
+        <th scope="col">File</th>
+        <th scope="col">Brand</th>
+        <th scope="col">Summary</th>
+        <th scope="col" class="right">Time</th>
+      </tr>
+    </thead>
+    <tbody id="batch-body"></tbody>
+  </table>
+</section>
+{% endblock %}
+
+{% block scripts %}
+<script src="/static/js/batch.js"></script>
+{% endblock %}
