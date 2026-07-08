@@ -43,14 +43,14 @@ def preprocess(raw_bytes: bytes) -> bytes:
         if long_edge > MAX_LONG_EDGE:
             scale = MAX_LONG_EDGE / long_edge
             new_size = (int(img.size[0] * scale), int(img.size[1] * scale))
-            img = img.resize(new_size, Image.LANCZOS)
+            img = img.resize(new_size, Image.BILINEAR)
         elif long_edge < MIN_LONG_EDGE:
             # Upscaling won't create detail but it does give the vision model
             # more pixels to attend to for small warning text.
             scale = MIN_LONG_EDGE / long_edge
             new_size = (int(img.size[0] * scale), int(img.size[1] * scale))
-            img = img.resize(new_size, Image.LANCZOS)
+            img = img.resize(new_size, Image.BILINEAR)
 
         out = io.BytesIO()
-        img.save(out, format="PNG", optimize=True)
+        img.save(out, format="JPEG", quality=85, optimize=True)
         return out.getvalue()

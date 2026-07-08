@@ -78,7 +78,7 @@ async def _analyze_bytes(
     prepared = preprocess(raw)
     # extract() is a blocking SDK call; run it off the event loop so the
     # server stays responsive during batch runs.
-    extracted = await asyncio.to_thread(extract, prepared, "image/png")
+    extracted = await asyncio.to_thread(extract, prepared, "image/jpeg")
     elapsed_ms = int((time.perf_counter() - started) * 1000)
     return review(extracted, application, elapsed_ms, filename)
 

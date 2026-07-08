@@ -83,7 +83,7 @@ def _coerce_beverage_class(raw: Any) -> BeverageClass:
     return BeverageClass.UNKNOWN
 
 
-def extract(image_bytes: bytes, media_type: str = "image/png") -> ExtractedLabel:
+def extract(image_bytes: bytes, media_type: str = "image/jpeg") -> ExtractedLabel:
     """Run one vision call and return a validated ExtractedLabel."""
     client = _get_client()
     b64 = base64.standard_b64encode(image_bytes).decode("ascii")
@@ -91,7 +91,7 @@ def extract(image_bytes: bytes, media_type: str = "image/png") -> ExtractedLabel
     try:
         response = client.messages.create(
             model=settings.vision_model,
-            max_tokens=1500,
+            max_tokens=800,
             messages=[
                 {
                     "role": "user",
